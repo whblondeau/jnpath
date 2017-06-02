@@ -112,7 +112,7 @@ Rather than using the XPath syntax, JNPath uses a matching syntax designed expli
  
   - `[]`, `[m:n]`, [-n]` for array index steps;
   
-  - partial glob wildcarding (e.g. `[\*]`, `["ab\*ve"]`) for named steps
+  - partial glob wildcarding (e.g. `[*]`, `["ab*ve"]`) for named steps
   
  - a **very limited set of boolean conditionals**, with syntactic sugar, that can be injected into path steps.
 
