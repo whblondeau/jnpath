@@ -1,7 +1,18 @@
 # jnpath
-_tl;dr: a lightweight, ad-hoc toolkit that **unambitiously** provides minimal XPATH/XSLT-like declarative capability for JSON._
+_TL;DR:_ 
 
-## Examples
+_A lightweight, ad-hoc toolkit that **unambitiously** provides minimal XPath-like declarative capability for JSON._
+
+_A JNPath pattern expression (`jnpattern`) is a match expression. Pattern notation is a superset of JSON path notation, with additional matching syntax based closely on JSON path notation._
+
+_The fundamental operation of JNPath is the matching of a JSON instance node to a `jnpattern`._
+
+_JNPath includes reciprocal operations for:_
+ - _decomposing a JSON object into a set of instance paths, and_
+ - _composing a set of instance paths into a JSON object._
+_This provides a straightforward utility for applying `jnpattern` tests to any JSON object, and composing new JSON objects out of any set of generated paths._
+
+## `jnpattern` examples
 
 `['stores']['*parrot'][*]`                  get all child nodes of any child of the  
                                             "stores" top-level node, whose name ends
@@ -59,70 +70,28 @@ _tl;dr: a lightweight, ad-hoc toolkit that **unambitiously** provides minimal XP
 
 `[*]`                                       get all top-level nodes of a JSON object
 
-
+----
 ## why
-### XPath-like benefits for JSON
-The declarative programming style is highly beneficial. Some of the best declarative languages are the XPath technologies: XSLT and XQuery. Since the JSON datamodel is a much-simplified but still valid subset of the XML datamodel, it would seem to be an obvious move to create, e.g., "JSONPath", "JSONSLT", "JSONQuery" to translate the benefits to the JavaScript world. Unfortunately, worthy efforts to get something going seem to have foundered.
+### declarative programming
+The declarative programming style is highly beneficial. The overwhelming advantage of declarative programming is that _the programmer needs only to state the desired outcome._ This is very unlike the much more common _imperative_ style of language, in which the programmer has to state _how_ to achieve that desired result. The practical difference is that declarative languages tend not to have bugs (defining "bug" as "a non-obvious logic problem"). Errors in declarative code tend to be casual blunders, more at the level of "Oh shit, I forgot to stipulate that". Bugs, in the sense I'm using it here, crop up in imperative languages with depressing frequency, largely because programmers must invent situational logic on the fly.
+
+Successful declarative languages include SQL and most of the unix command line. Some of the best declarative languages in general use are the XPath technologies: XML Schema, XSLT, XQuery _et al_. All of them depend on the powerful and well-designed XPath node selection notation; which is in turn made possible by the constrained nature of the XML data that it works against. The payoffs are pretty spectacular: the complex data tree transformations produced by XSLT, for example, would be prohibitively costly to reproduce using ad hoc imperative means.
+
+### why not JSON, eh?
+Since the JSON datamodel is a much-simplified but still valid subset of the XML datamodel, it would seem to be an obvious move to create, e.g., "JSONPath", "JSONSLT", "JSONQuery" to translate comparable benefits to the JSON data type. It's been tried; unfortunately, worthy efforts to get something going seem to have foundered.
+
+There are many reasons for this, and considering them in any detail is far beyond the scope of this document. However, there are several plausible considerations, which have guided the development of JNPath:
+
+ - The JavaScript developer community has an apparent widespread cultural dislike of all things XML. Avoidance of XML-related concepts and syntax is wise for any project that might seek the attention of JavaScript developers.
+ - When replicating the benefits of XPath, it's not necessary to borrow the syntax by which XPath was implemented. The value of XPath is as a successfully implemented logical model: to be emulated but not reproduced.
+ - XPath explicitly targets the XML datamodel. When replicating the benefits of XPath to JSON, it's important to discard any XPath features (or implicit/embedded logic) that is not relevant to the JSON datamodel.
+ - Logical completism is the devil. The W3C was obliged to design and build its specification to a 100% logical standard. A pragmatic logical subset of the XPath-for-JSON problem space is arguably superior to a forced march to that 100%.
+
+----
+## how
 
 ### 80% solution
 One common failing of projects that try to provide broad support is that they compulsively attempt to bring all the things. This runs up hard against the general principle that "if the first 90% takes eight months, the second 90% will take fifteen months." JNPath is defined, from the outset, as a sort of Pareto solution.
 
 
 
-#### Things the examples show
-
-JNPaths are composed of square-bracketed **steps**. Each step represents traversal down into the JSON object. Typically, this is a direct traversal to a child node. (The special descent shortcut expression `[**]` is the only exception to this.)
-
-**`namexpr` name expressions:**
-
-When the square brackets contain a string, that's the name of a node. The name can be exact, or it can be a glob expression.
-
-**`indexpr` index expressions:**
-
-When the square brackets contain a number, that's the index of the node in its parent array.
-
-`[nonnegative index]` is a zero-based index for a node's position in its parent array.
-
-`[negative index]` is a one-based index counting backwards from the last item in the parent array. This is a very elegant and powerful syntax taken directly from Python. Its Javascript equivalent would be `parent.length + negativeindex`.
-
-`[startwith:endbefore]` is slicing syntax, cribbed directly from Python but consistent with Javascript's `.slice(startwith, endbefore)`.
-
-**Commas inside square brackets are boolean OR expressions:**
-
-`[indexpr, indexpr,...]` is syntactic sugar allowing multiple numeric index expressions so you don't have to write a lot of separate JNPaths.
-
-`[namexpr, namexpr,...]` is syntactic sugar allowing multiple name expressions so you don't have to write a lot of separate JNPaths.
-
-**Wildcard node expressions**
-
-`[]` means "any number" for an array index.
-
-`['*']` means "any named node" -- really just a special case of glob.
-
-`[*]` means "any node" irrespective of whether its parent is an object or an array.
-
-`[**]` means "any descendant sequence" of zero or more nodes.
-
-**where**
-
-`(boolean expression)` is a WHERE clause applied to the immediately preceding step. (For those who know XPath, the irony will not be lost: in XPath the notation is "[boolean expression]".)
-
-**Special boolean operators**
-
-`yes` is syntactic sugar for "does the following expression find at least one existing node?"
-
-`no` is syntactic sugar for "does the following expression find no existing nodes?"
-
-`falsy` is syntactic sugar for "does the following expression find no nodes at all whose value is truthy?" Sense of this is equivalent to JavaScript's `truthy`/`falsy` semantics (NOT the same as Python's! Sorry, Pythonistas.)
-
-`empty` is syntactic sugar for "does the following expression find at leaast one node whose value is an empty collection (i.e., JSON lists the value as `[]` or `{}`)?"
-
-`not` is the boolean negative, same as Javascript's `!` or Python's `not`.
-
-#### Return value "retexpr"
-
-JNPath returns a very specific data structure for each node it finds. This is an array representing a 2-tuple:
-
-`[<explicit path>, <node value>]`
-
-where the explicit path includes the node's name (if the parent is an object) or index (if the parent is an array.)
