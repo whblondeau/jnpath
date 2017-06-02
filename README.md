@@ -73,7 +73,9 @@ _This provides a straightforward utility for applying `jnpattern` tests to any J
 ----
 ## why
 ### declarative programming
-The declarative programming style is highly beneficial. The overwhelming advantage of declarative programming is that _the programmer needs only to state the desired outcome._ This is very unlike the much more common _imperative_ style of programming, in which the programmer has to state _how_ to achieve that desired result. The practical difference is that declarative languages tend not to have bugs (defining "bug" as "a non-obvious logic problem"). Errors in declarative code tend to be casual blunders, more at the level of "Oh shit, I forgot to stipulate that". Bugs, in the sense I'm using it here, crop up in imperative languages with depressing frequency, largely because programmers must typically invent situational logic on the fly.
+The declarative programming style is highly beneficial.
+
+The overwhelming advantage of declarative programming is that _the programmer needs only to state the desired outcome._ This is very unlike the much more common _imperative_ style of programming, in which the programmer has to state _how_ to achieve that desired result. The practical difference is that declarative languages tend not to have bugs (defining "bug" as "a non-obvious logic problem"). Errors in declarative code tend to be casual blunders, more at the level of "Oh shit, I forgot to stipulate that". Bugs, in the sense I'm using it here, crop up in imperative languages with depressing frequency, largely because programmers must typically invent situational logic on the fly.
 
 Successful declarative languages include SQL and most of the unix command line. Some of the best declarative languages in general use are the XPath technologies: XML Schema, XSLT, XQuery _et al_. All of them depend on the powerful and well-designed XPath node selection notation; which is in turn made possible by the constrained nature of the XML datamodel that it works against. The payoffs are pretty spectacular: the complex data tree transformations produced by XSLT, for example, would be prohibitively costly to reproduce using ad hoc imperative means; and those ad hoc solutions would generally not scale very well if built.
 
@@ -104,6 +106,8 @@ JNPath will, insofar as possible, always strive to be _highly explicit_ and to _
 
 Snark aside, "porn simple" is a tagline for a very serious matter. Anybody using JNPath should find it obvious, reasonable, easy, small, and—perhaps most important—_not confusing._
 
+One very important implication of porn simple is "flatlogic": the principle that JNPath expressions should not require the programmer to apply extra logic to interpret them on the fly. In other words, the expressions themselves have relatively little logical depth. This makes sight-reading easy to do.
+
 A lot of very promising and useful features have been excluded from the design because they failed the porn simple test. (A good example is regular expressions as wildcards in `jnpattern` steps. Regexes are powerful, fast, expressive, and extensively used in the implementation; and some in fact are exposed as API constants. But, while like maybe 7% of us would be happy to use them, for the rest of the world regexes are an unspeakable horror. Their occurrence creates an immense blast of visual static that derails intuition. As Philip Marlowe said, it "stands out like a tarantula on your slice of angel food cake." So no. No regexes.)
 
 ### syntax: familiar and not forbidding
@@ -119,7 +123,7 @@ Rather than using the XPath syntax, JNPath uses a matching syntax designed expli
  
   - `[]`, `[m:n]`, `[-n]` for array index steps
   
-  - limited glob-style wildcarding (e.g. `[*]`, `["ab*ve"]`) for named steps
+  - limited glob-style wildcarding (e.g. `["*"]`, `["ab*ve"]`) for named steps
   
  - a **very limited set of boolean conditionals**, with syntactic sugar, that can be injected into path steps.
 
