@@ -3,25 +3,44 @@ _TL;DR:_
 
 _A lightweight, ad-hoc toolkit that **unambitiously** provides minimal XPath-like declarative capability for JSON._
 
-_A JNPath pattern expression (`jnpattern`) is a match expression. Pattern notation is a superset of JSON path notation, with additional matching syntax based closely on JSON path notation._
+_A JNPath pattern expression (`jnpattern`) is a match expression. Pattern notation is a superset of JSON path notation, with additional matching syntax based closely on familiar expressions._
 
-_The fundamental operation of JNPath is the matching of a JSON instance node to a `jnpattern`._
+_Any notation in JNPath is severely constrained to be simple, unambiguous, and cognitively undemanding.
+
+_The fundamental operation of JNPath is the matching of a JSON instance path to a `jnpattern`._
 
 _JNPath includes reciprocal operations for:_
  - _decomposing a JSON object into a set of instance paths, and_
  - _composing a set of instance paths into a JSON object._
-_This provides a straightforward utility for applying `jnpattern` tests to any JSON object, and composing new JSON objects out of any set of generated paths._
+_This provides a straightforward utility for applying `jnpattern` tests to any JSON object, and composing new JSON objects out of any set of generated or selected paths._
+
+### This project is a definitional and development repo.
+Its immediate purpose is to serve as a kind of factory for pieces of working code, which will be used in various production scripts and working code. When the definition is sufficiently stable, a reference implementation will be built and published.
 
 ## `jnpattern` examples
 
-`['stores']['*parrot'][*]`                  get all child nodes of any child of the  
-                                            "stores" top-level node, whose name ends
-                                            in "parrot"
+`[.]`                                       get all top-level nodes of a JSON object
 
-`['stores'][**]['inventory'][*]`            get any child nodes of any "inventory"   
+`[....]`                                    get all nodes of a JSON object
+
+`['stores']['*parrot'][.]`                  get **all child nodes** of any child
+                                            of the "stores" top-level node, whose name
+                                            ends in "parrot"
+                                            
+`['stores']['*parrot'][*]`                  get **all named child nodes** of any child
+                                            of the "stores" top-level node, whose name
+                                            ends in "parrot" (if the "*parrot" node value
+                                            is an array, no match occurs)
+                                            
+`['stores']['*parrot'][-]`                  get **all indexed child nodes** of any child
+                                            of the "stores" top-level node, whose name
+                                            ends in "parrot" (if the "*parrot" node value
+                                            is an object rather than an array, no match occurs)
+
+`['stores'][...]['inventory'][.]`           get any child nodes of any "inventory"   
                                             descendants of the "stores" top-level node
 
-`['student'](['first_name'] == 'Ann')[*]`   get the enture contents of every "student"
+`['student'](['first_name'] == 'Ann')[.]`   get the entire contents of every "student"
                                             record where the record's "first_name"
                                             property has a value of "Ann"
 
@@ -31,44 +50,42 @@ _This provides a straightforward utility for applying `jnpattern` tests to any J
 `[-2]`                                      get the next to last top-level element
                                             of a JSON array object
 
-`[**](['herp'] == 'derp')`                  get all nodes in the JSON object for
+`[...](['herp'] == 'derp')`                 get all nodes in the JSON object for
                                             which the "herp" property has a value
                                             of "derp"
 
-`['books'][](no ['donor'])`                 get any nodes from the "books" top-level
+`['books'][-](no ['donor'])`                get any nodes from the "books" top-level
                                             array that have no "donor" property
 
-`['books'][](yes ['donor'])`                get any nodes from the "books" top-level
+`['books'][-](yes ['donor'])`               get any nodes from the "books" top-level
                                             array that do have a "donor" property
                                             (irrespective of "donor"'s value or
                                             lack of value)
 
-`['books'][](falsy ['donor'])`              get any nodes from the "books" top-level
+`['books'][-](falsy ['donor'])`             get any nodes from the "books" top-level
                                             array that have a "donor" property whose
                                             value is falsy `(null`, empty string,
                                             boolean `false`, etc)
 
-`['books'][](empty ['donor'])`              get any nodes from the "books" top-level
+`['books'][-](empty ['donor'])`             get any nodes from the "books" top-level
                                             array that have a "donor" property whose
                                             value is an empty object or array
 
-`['album']['tracks'][3][*]`                 get the fourth node from the "tracks" array 
+`['album']['tracks'][3][.]`                 get the fourth node from the "tracks" array 
                                             in the "album" top-level object
 
-`['album']['tracks'][-1][*]`                get the last node from the "tracks" array
+`['album']['tracks'][-1][.]`                get the last node from the "tracks" array
                                             in the "album" top-level object
 
-`['album']['tracks'][2:7][*]`               get the third through seventh node from the  
+`['album']['tracks'][2:7][.]`               get the third through seventh node from the  
                                             "tracks" array in the "album" top-level object
 
-`['album']['tracks'][3, 5, 8][*]`           get the fourth, sixth, and ninth nodes from the  
+`['album']['tracks'][3, 5, 8][.]`           get the fourth, sixth, and ninth nodes from the  
                                             "tracks" array in the "album" top-level object
 
-`['album']['tracks'][1:-1][*]`              get all nodes _except_ the first and last from
+`['album']['tracks'][1:-1][.]`              get all nodes _except_ the first and last from
                                             the "tracks" array in the "album" top-level
                                             object
-
-`[*]`                                       get all top-level nodes of a JSON object
 
 ----
 ## why
