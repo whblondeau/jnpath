@@ -1,11 +1,11 @@
 # jnpath
 _TL;DR:_ 
 
-_A lightweight, ad-hoc toolkit that **unambitiously** provides minimal XPath-like declarative capability for JSON._
+_A lightweight, ad-hoc toolkit that **unambitiously** provides minimal XPath-like declarative capability for JSON, without attempting to use the XPath syntax._
 
 _A JNPath pattern expression (`jnpattern`) is a match expression. Pattern notation is a superset of JSON path notation, with additional matching syntax based closely on familiar expressions._
 
-_Any notation in JNPath is severely constrained to be simple, unambiguous, and cognitively undemanding.
+_Any notation in JNPath is severely constrained to be **simple**, **unambiguous**, and **cognitively undemanding**._
 
 _The fundamental operation of JNPath is the matching of a JSON instance path to a `jnpattern`._
 
@@ -103,7 +103,7 @@ There are many reasons for this, and considering them in any detail is far beyon
 
  - The JavaScript developer community has an apparent widespread cultural dislike of all things XML. Avoidance of XML-related concepts and syntax is prudent for any project that hopes to be useful to JavaScript developers.
  
- - When replicating the benefits of XPath, it's not necessary to borrow the syntax by which XPath was implemented. The value of XPath is as a successfully implemented logical model: to be emulated but not reproduced.
+ - When replicating the benefits of XPath, it's not necessary to borrow the syntax by which XPath was implemented. The value of XPath is as a successfully implemented logical model: to be emulated but not literally reproduced.
  
  - XPath explicitly targets the XML datamodel. When replicating the benefits of XPath to JSON, it's important to discard any XPath features (or implicit/embedded logical assumptions) that are not relevant to the JSON datamodel.
  
@@ -118,27 +118,34 @@ Other projects have used various names for their JSON + XPath adaptations. "JNPa
 ### 80% solution
 JNPath is defined, from the outset, as a sort of Pareto solution. Its intent is to be realistically completable and pragmatically useful. The subset of possible features is severely restricted, based mainly on balancing concerns of utility vs. complication.
 
+A **ruthless refusal to implement Just This One Other Cool Feature** is a core pronciple of JNPath.
+
 ### porn simple
 JNPath will, insofar as possible, always strive to be _highly explicit_ and to _require minimum thought_ from users. The (possibly slightly sarcastic) reference to production values of the commercial pornographic industry makes a handy mnemonic.
 
-Snark aside, "porn simple" is a tagline for a very serious matter. Anybody using JNPath should find it obvious, reasonable, easy, small, and—perhaps most important—_not confusing._
+Snark aside, "porn simple" is a tagline for a very serious matter. **Anybody using JNPath should find it obvious, reasonable, easy, small, and—perhaps most important—_not confusing._**
 
-One very important implication of porn simple is "flatlogic": the principle that JNPath expressions should not require the programmer to apply extra logic to interpret them on the fly. In other words, the expressions themselves have relatively little logical depth. This makes sight-reading easy to do.
+One very important implication of porn simple is **"flatlogic"**: the principle that JNPath expressions **should not require the programmer to apply extra mental effort to interpret them on the fly.** In other words, the expressions themselves have relatively little logical depth. This makes sight-reading easy to do.
 
-A lot of very promising and useful features have been excluded from the design because they failed the porn simple test. (A good example is regular expressions as wildcards in `jnpattern` steps. Regexes are powerful, fast, expressive, and extensively used in the implementation; and some in fact are exposed as API constants. But, while like maybe 7% of us would be happy to use them, for the rest of the world regexes are an unspeakable horror. Their occurrence creates an immense blast of visual static that derails intuition. As Philip Marlowe said, it "stands out like a tarantula on your slice of angel food cake." So no. No regexes.)
+A lot of very promising and useful features have been excluded from the design because they failed the porn simple test. (A good example is regular expressions as wildcards in `jnpattern` steps. Regexes are powerful, fast, expressive, and extensively used in the implementation; and some in fact are exposed as API constants. But, while like maybe 7% of us would be happy to use them, for the rest of the world regexes are an unspeakable horror. Their occurrence creates an immense blast of visual static that derails intuition and shakes the reader/developer out of the zone. As Philip Marlowe said, it "stands out like a tarantula on your slice of angel food cake." So no. No regexes.)
+
+### optimized for readability
+This is a straight steal from Python's excellent example; and a reaction to XSLT's terrible counterexample. (XSLT, which is logically excellent, has visually and cognitively forbidding syntax. I personally never had trouble with it, but the verdict is pretty clear: a lot of very capable programmers hit XSLT and bounce off.)
 
 ### syntax: familiar and not forbidding
 Hopefully, anyway.
 
 Rather than using the XPath syntax, JNPath uses a matching syntax designed explicitly for JSON. The intent is to provide a language that the target audience will naturally understand. `jnpattern` syntax is a superset of the normal notation for extracting values from JSON objects. The path notation is augmented by:
 
- - the **shortcut** step `[**]`, which skips zero or more steps in a path;
+ - the **shortcut** step `[...]`, which skips zero or more steps in a path;
 
  - **wildcard/multiselect** steps:
  
-  - `[*]` which matches any step, whether named or array index
+  - `[.]` which matches any step, whether named or array index
  
-  - `[]`, `[m:n]`, `[-n]` for array index steps
+  - `[*]` which matches any named step
+
+  - `[-]`, `[m:n]`, `[-n]` for array index steps
   
   - limited glob-style wildcarding (e.g. `["*"]`, `["ab*ve"]`) for named steps
   
