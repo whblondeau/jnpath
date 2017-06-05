@@ -1,4 +1,4 @@
-# jnpath
+# JNPath
 _TL;DR:_ 
 
 _A lightweight, ad-hoc toolkit that **unambitiously** provides minimal XPath-like declarative capability for JSON, without attempting to use the XPath syntax._
@@ -19,7 +19,9 @@ _This provides a straightforward utility for applying `jnpattern` tests to any J
 Other projects have used various names for their JSON + XPath adaptations. "JNPath" seems like a simple, adequately salient, adequately representative name whose googlespace isn't much colonized.
 
 ### This project is a definitional and development repo.
-Its immediate purpose is to serve as a kind of factory for pieces of working code, which will be used in various production scripts and working code. When the definition is sufficiently stable, a reference implementation will be built and published.
+Its immediate purpose is to serve as a kind of factory for pieces of working code, which will be used in various production scripts and working code.
+
+When the definition is sufficiently stable, a reference implementation will be built and published.
 
 ## `jnpattern` examples
 
@@ -109,12 +111,13 @@ JSON, setting aside notational differences, is a restricted and simplified subse
 Why?
 
 Well, it's not a trivial question to answer, but I think the roots lie in the cultural and work norms of the JavaScript developer community: the majority of the people who work with JSON. To boil it down to a drastically oversimplified form:
-- JavaScript developers appear to hate all things XML.
-- JavaScript developers are so focused on mastering asynchronous code (in a syntax that, let's face it, is pretty ugly), and on coping with the various web development frameworks, that they justifiably do not want to learn yet another syntax—let alone another way of thinking about programming.
+- JavaScript developers appear to hate all things XML. (They're not alone. XML is, unfortunately, detested in many communities of practice.)
 
-Given these predispositions, it's understandable that some worthy efforts to apply XPath to JSON have seen little uptake.
+- JavaScript developers are so focused on mastering asynchronous code (expressed in a syntax that, let's face it, is demanding and pretty ugly), and on coping with the various web development frameworks, that they justifiably do not want to learn yet another syntax—let alone another way of thinking about programming.
 
-JNPath is another whack at the piñata. One that attempts to avoid predictable resistance to XPath technologies.
+Given these predispositions, it's understandable that some worthy efforts to apply XPath-style benefits to JSON have seen little uptake.
+
+JNPath is one more whack at the piñata. One that attempts to avoid predictable (and arguably justified) resistance to XPath technologies.
 
 ----
 (For an extended discussion of this section, see [Design Principles](https://github.com/whblondeau/jnpath/blob/master/design_principles.md).)
@@ -123,7 +126,7 @@ JNPath observes several key design and implementation principles:
 ### scope
 - **80% is good enough.** XPath and its children are necessarily 100% solutions, because the W3C was defining general standards. JNPath, by implementing only a carefully-considered **pragmatic subset** of the logical model involved in JSON node selection, remains realistically completable and, hopefully, useful.
 
-- **Discard inapplicable aspects of the XPath datamodel.** Define a logical model of node selection that considers JSON only. XPath is _much_ larger and more complicated than JNPath. Using XPath to select JSON nodes is a textbook example of taking a 5-ton dump truck to the corner store for a banana and a pack of cigarettes.
+- **Discard inapplicable aspects of the XPath datamodel.** XPath is used as a **guiding illustration of capability, rather than a datamodel to be ported.** JNPath defines a logical model of node selection that considers JSON only. XPath is _much_ larger and more complicated than JNPath. Using XPath to select JSON nodes is a textbook example of taking a 5-ton dump truck to the corner store for a banana and a pack of cigarettes.
 
 - **Leaf Path implementation.** JSON carries its data in leaf nodes. The access paths simply represent organization. This is _much simpler than XML's mixed-content datamodel_. This permits a remarkable and powerful design feature: The JNPath API exposes a function for converting JSON objects into leaf-node paths, and another function for assembling a structurally coherent set of leaf paths into a JSON object. Not only does this permit node selection on JSON objects to be implemented via a very simple pattern-matching operation on paths, it provides enormous convenience to any developer who wants to perform custom operations on paths.
 
