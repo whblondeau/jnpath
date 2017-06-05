@@ -133,7 +133,7 @@ JNPath observes several key design and implementation principles:
 ### syntax
 - **Use familiar JSON syntax**, and expressions derived from it, instead of XML/XPath syntax.
 
-- **Make extended syntax as simple and straightforward as possible.** When moving beyond JSON access syntax in order to define `jnpattern` expressions, use symbols that have familiar meaning (e.g., `*`), that are salient and distinct (e.g., `...`), and that have low visual static (the wildcard symbol for "any array index" was going to be `#`, but was replaced by `-` in order to slightly simplify the visual representation.)
+- **Make extended syntax as simple and straightforward as possible.** When moving beyond JSON access syntax in order to define `jnpattern` expressions, use symbols that have familiar meaning (e.g., `*`), that are salient and distinct (e.g., `...`), and that have low visual static (the wildcard symbol for "any array index" was going to be `#`, but was replaced by `-`: for no other reason than to slightly declutter the visual representation.)
 
 - **Optimize syntax for readability.** Code will typically be read many times, during initial construction and subsequent maintenance or modification. It's written once. The more sight-readable the code, the better.
 
