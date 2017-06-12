@@ -155,7 +155,7 @@ expected to be reasonably safe in this respect. Other delimiter literals
 can be used if needed.
 
 The one weird substitution in leaf content, primarily to support 
-line-mode output, is that newline "\n" character sequences (which are
+line-mode output, is that newline "\\n" character sequences (which are
 converted to actual newline sequences when printing to stdout) are
 replaced by "\q", which hopefully will not get sideways
 with any parameter passing or text processing. It's the responsibility
