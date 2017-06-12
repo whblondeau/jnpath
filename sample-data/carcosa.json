@@ -1,0 +1,89 @@
+{
+    "library_name": "Arkham Public Library",
+    "auth_type": "Public Library",
+    "auth_slug": "arkham-public-library",
+    "library_presenting_name": "The Whateley Foundation",
+    "library_website": "https://manuscripts.arkham.org/",
+    "library-namespace": "org.arkham.manuscripts",
+    "library_abbreviation": "ARKH",
+    "library_nickname": "APL",
+    "library_adjective": "APL",
+    "library_mailing_address_1": "412 Danvers Street",
+    "library_mailing_address_2": "",
+    "library_mailing_address_municipality": "Arkham",
+    "library_mailing_address_locale": "Massachusetts",
+    "library_postal_code": "01042",
+    "library_contact_email": "library@arkhamlibrary.org",
+    "library_possessive": "Arkham Public Library's",
+    "privacy_policy_label": "That Which Must Remain Hidden (warning: PDF) (warning: Pnakotic)",
+    "privacy_policy_url": "https://manuscripts.arkham.org/privacy/privacystatement.pdf",
+    "library_collections": 
+    [
+        {
+            "auth_slug": "arkham-public-library",
+            "collection_name": "Songs Of Carcosa",
+            "collection_slug":"arkham-public-library-songs-of-carcosa",
+            "collection_namespace": "org.arkham.manuscripts.songsofcarcosa",
+            "collection_abbreviation": "ARKHSC",
+            "collection_nickname": "Carcosa",
+            "collection_region": "Miskatonic River Valley",
+            "collection_site": "https://songsofcarcosa.manuscripts.arkham.org/",
+            "config": 
+            {
+                "bannerContent":
+                [
+                    {
+                      "headline" : "Behold",
+                      "bannerText" : "Towers rising behind the moon",
+                      "buttonText" : "Gallery",
+                      "URL" : "gallery",
+                      "image" : "http://www.carcosa-collection.com/threshold/images/stories/general/index-page-lost-carcosa.jpg"
+                    },
+                    {
+                      "headline" : "Hear",
+                      "bannerText" : "Songs that the Hyades shall sing",
+                      "buttonText" : "Listen",
+                      "URL" : "about",
+                      "image" : "assets/banner2.jpg"
+                    },
+                    {
+                      "headline" : "Join Us",
+                      "bannerText" : "Have your music reviewed by our Guest Curator, Fun Guy From Yuggoth!",
+                      "buttonText" : "Submit",
+                      "URL" : "submit",
+                      "image" : "assets/banner3.jpg"
+                    }
+                ]    
+            },
+            "rounds":
+            [
+                {
+                    "round_slug":"arkhsc-fall-2018",
+                    "round_label": "Songs of Carcosa Fall 2018",
+                    "round_is_open": false,
+                    "event_properties": {
+                        "start_date": "2018-09-01",
+                        "last_date": "2018-10-31"
+                    },
+                    "associated_people": 
+                    [
+                        {
+                          "name": "Jenny Waite",
+                          "association": "Judge",
+                          "blurb": "With a background in benthic art, genealogy, and maritime work, Jenny brings her passion for folkloric traditions and sea chanteys to the task of judging submissions."
+                        },
+                        {
+                          "name": "Howard Phillips Lumumba",
+                          "association": "Judge",
+                          "blurb": "“HPL”, as he likes to be called, is responsible for the sound system at the celebrated waterfront music tavern “Chûm The Unavoidable” in Innsmouth.\nHis connections in the Arkham River Valley music scene are extensive. He is also a well-known session guitarist and producer, having contributed to Rough Clams's album _The Bottomʼs low and the Trebleʼs Clear_ and Byakher's exploratory sonic venture _Cassilda's Hidden_, among others."
+                        },
+                        {
+                          "name": "Fun Guy From Yuggoth",
+                          "association": "Guest Curator"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -85,14 +85,15 @@ def enumerate_leafpaths(current_node, current_pathstring='', current_steplist=[]
             # empty list. This is a leaf. Give it up.
             yield (current_node, current_pathstring, current_steplist)
         else:
+
             for indx, val in enumerate(current_node):
-                childpath = current_pathstring + '[' + str(indx) + ']'
+                childpath = current_pathstring + '[' + str(indx) + ' of ' + str(len(current_node)) + ']'
                 # make a separate copy!
                 childsteplist = copy.copy(current_steplist)
                 childsteplist.append(str(indx))
                 result = enumerate_leafpaths(val, childpath, childsteplist)
                 for item in result:
-                    # result best be nested iterators of tuples!
+                    # result best be nested iterators of tuples
                     yield item
 
     elif isinstance(current_node, dict):
@@ -108,7 +109,7 @@ def enumerate_leafpaths(current_node, current_pathstring='', current_steplist=[]
                 childsteplist.append(attrname)
                 result = enumerate_leafpaths(val, childpath, childsteplist)
                 for item in result:
-                    # result best be nested iterators of tuples!
+                    # result best be nested iterators of tuples
                     yield item
 
     else:
@@ -140,7 +141,7 @@ newline_escape = '\q'
 
 usage = '''USAGE:
 
-    json2leaf --help | <serialized json obj>
+    python json2leafpaths.py --help | <serialized json obj>
 
 This script accepts a json serialization and returns a sorted
 leafpath representation of all content.
@@ -167,6 +168,7 @@ of the calling code to restore (or remove) these doubly escaped newlines.
 import sys
 import json
 import copy
+import os, os.path
 
 if '--help' in sys.argv:
     print(usage)
@@ -180,11 +182,17 @@ if len(sys.argv) < 2:
 leaf_open_demarc = '|||'
 leaf_end_demarc = '|||'
 
-jsoncontent = sys.argv[1]
-
-# print(jsoncontent)
-
+jsonparam = sys.argv[1]
 jsonobj = None
+jsoncontent = None
+
+if os.path.isfile(jsonparam):
+    print('Reading JSON content from file ' + jsonparam + '.')
+    with open(jsonparam) as srcfile:
+        jsoncontent = srcfile.read()
+else:
+    print('Parsing parameter as JSON content.')
+    jsoncontent = jsonparam
 
 try:
     jsonobj = json.loads(jsoncontent)
